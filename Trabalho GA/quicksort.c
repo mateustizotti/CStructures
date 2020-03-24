@@ -46,7 +46,7 @@ int main() {
         printf("%d\n", numbers[i]);
     }
 
-    quickSort(numbers, 0, size);
+    quickSort(numbers, 0, size - 1);
 
     printf("Vector in increasing order:\n");
     for (i = 0; i < size; i++){
