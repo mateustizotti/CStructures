@@ -3,22 +3,22 @@
 #include "quickSort.h"
 #define size 10
 
-int binarySearch(int numbers[], int left, int rigth, int x) {
-        int mid = (left + rigth)/2;
+int binarySearch(int numbers[], int left, int right, int x) {
+        int mid = (left + right)/2;
 
-        while (left <= rigth){
+        while (left <= right){
             if (numbers[mid] == x) {
                 return mid + 1;
                 break;
             } else if (numbers[mid] < x) {
                 left = mid + 1;
             } else if (numbers[mid] > x) {
-                rigth = mid - 1;
+                right = mid - 1;
             }
-            mid = (left + rigth)/2;
+            mid = (left + right)/2;
         }
         
-    if (left > rigth) {
+    if (left > right) {
         printf("Integer not found!\n");
         system("pause");
     }
