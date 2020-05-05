@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define size 6
+#define size 16
 
 void swap(int numbers[], int a, int b) {
     int temp = numbers[a];
@@ -39,5 +39,5 @@ int main() {
         printf("%d\n", numbers[i]);
     }
 
-    system("pause");
+    return 0;
 }
