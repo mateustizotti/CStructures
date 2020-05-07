@@ -13,5 +13,4 @@ int main() {
 
     printf("Concatenated strings: %s", strcat(str1, str2));
     return 0;
-
 }

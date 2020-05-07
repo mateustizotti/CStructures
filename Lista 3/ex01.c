@@ -9,7 +9,7 @@ int main()
 {
     int i, r;
 
-    printf("ThIS program will calculate the tension in your circuit.\n");
+    printf("This program will calculate the tension in your circuit.\n");
 
     printf("Type in the current:\n");
     scanf("%d", &i);
