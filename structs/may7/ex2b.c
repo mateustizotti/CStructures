@@ -34,6 +34,10 @@ int main() {
        printf("Plate: %s\n", cars[i].plate);
 
        printf("Checked in at: %s\n", cars[i].checkIn);
+
+       printf("Model address: %p\n", &cars[i].model);
+
+       printf("Plate: address: %p\n", &cars[i].plate);
    }
    
    return 0;
