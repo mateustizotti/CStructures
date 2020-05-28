@@ -141,6 +141,8 @@ menu:
             clear();
             printf("Exiting...\n");
             printf("Bye bye!\n");
+            free(dishes);
+            dishes = NULL;
             return 0;
         default:
             break;
