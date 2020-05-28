@@ -19,7 +19,7 @@ int menu() {
     printf("1 - Consult the menu\n");
     printf("2 - Make an order\n");
     printf("3 - Exit\n");
-    scanf("%d", & menu);
+    scanf("%d", &menu);
     return menu;
 }
 
@@ -36,6 +36,31 @@ void displayDishes(struct dish *dishes, int n) {
     }
     printf("Press 0 and Enter to return: ");
     scanf("%d", &var);
+}
+
+void wrapOrder(struct dish *dishes, int orders[], int counter, int n) {
+    int freq[100], ctr = 0;
+    for (int i = 0; i < n; i++) {
+        freq[i] = -1;
+    }
+    
+    for (int i = 0; i < counter; i++) {
+        ctr = 1;
+        for (int j = i+1; j < counter; j++) { 
+            if (orders[i] == orders[j]) {
+                ctr++;
+                freq[j] = 0;
+            } 
+        }
+        if (freq[i] != 0) {
+            freq[i] = ctr;
+        }   
+    }
+    for (int i = 0; i < counter; i++) {
+        if (freq[i] != 0) {
+            printf("%dx %s", freq[i], dishes[orders[i]].name);
+        }
+    }
 }
 
 void makeOrder(struct dish *dishes, int n) {
@@ -69,11 +94,10 @@ void makeOrder(struct dish *dishes, int n) {
             printf("\nAdded %d %s", x, dishes[order-1].name);
             printf("Total value: R$%.02lf\n\n", totalValue);
         } else if (order == 0){
+            clear();
             printf("\nFinished order!\n\n");
             printf("Your order:\n");
-            for (int i = 0; i < counter; i++) {
-                printf("%s", dishes[orders[i]].name);
-            }
+            wrapOrder(dishes, orders, counter, n);
             printf("Total: R$%.02lf\n", totalValue);
             if (totalValue >= 30) {
                 printf("No delivery fee!\n\n");
@@ -83,7 +107,7 @@ void makeOrder(struct dish *dishes, int n) {
             }
             isOrdering = 0;
         } else {
-            printf("\nDish not found! Try again...\n");
+            printf("\nDish not found! Try again...\n\n");
             goto order;
         }
     }
@@ -94,7 +118,7 @@ void makeOrder(struct dish *dishes, int n) {
 
 int main() {
     struct dish *dishes;
-    int n;
+    int n, x;
 
     printf("Type in the the amount of dishes: ");
     scanf("%d", & n);
@@ -145,7 +169,9 @@ menu:
             dishes = NULL;
             return 0;
         default:
-            break;
+            printf("\nNot an option! Type 0 and try again!");
+            scanf("%d", &x);
+            goto menu;
     }
     return 0;
 }
