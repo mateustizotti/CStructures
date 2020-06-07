@@ -38,7 +38,7 @@ void displayDishes(struct dish *dishes, int n) {
     scanf("%d", &var);
 }
 
-void wrapOrder(struct dish *dishes, int orders[], int counter, int n) {
+void wrapOrder(struct dish *dishes, int orders[], int counter, int n, FILE *invoice) {
     int freq[100], ctr = 0;
     for (int i = 0; i < n; i++) {
         freq[i] = -1;
@@ -57,15 +57,17 @@ void wrapOrder(struct dish *dishes, int orders[], int counter, int n) {
         }   
     }
     for (int i = 0; i < counter; i++) {
-        if (freq[i] != 0) {
+        if (freq[i] != 0) {    
+            fprintf(invoice, "%dx %s", freq[i], dishes[orders[i]].name);
             printf("%dx %s", freq[i], dishes[orders[i]].name);
         }
     }
 }
 
-void makeOrder(struct dish *dishes, int n) {
+void makeOrder(struct dish *dishes, int n, int orderId) {
     int orders[100], order, var, counter = 0, isOrdering = 1, x;
     double totalValue = 0;
+    FILE *invoice = NULL;
 
     clear();
     printf("Your menu\n");
@@ -97,14 +99,20 @@ void makeOrder(struct dish *dishes, int n) {
             clear();
             printf("\nFinished order!\n\n");
             printf("Your order:\n");
-            wrapOrder(dishes, orders, counter, n);
+            invoice = fopen("invoice.txt", "a+");
+            fprintf(invoice, "--- Order #%d ---\n", orderId);
+            wrapOrder(dishes, orders, counter, n, invoice);
+            fprintf(invoice, "Total: R$%.02lf\n", totalValue);
             printf("Total: R$%.02lf\n", totalValue);
             if (totalValue >= 30) {
+                fprintf(invoice, "No delivery fee!\n\n");
                 printf("No delivery fee!\n\n");
             } else if (totalValue < 30) {
                 totalValue += 5;
+                fprintf(invoice, "Total with delivery fee (R$5,00): R$%.02lf\n\n", totalValue);
                 printf("Total with delivery fee (R$5,00): R$%.02lf\n\n", totalValue);
             }
+            fclose(invoice);
             isOrdering = 0;
         } else {
             printf("\nDish not found! Try again...\n\n");
@@ -118,6 +126,7 @@ void makeOrder(struct dish *dishes, int n) {
 
 int main() {
     struct dish *dishes;
+    int orderId = 0;
     int n, x;
 
     printf("Type in the the amount of dishes: ");
@@ -159,7 +168,8 @@ menu:
             displayDishes(dishes, n);
             goto menu;
         case 2:
-            makeOrder(dishes, n);
+            orderId++;
+            makeOrder(dishes, n, orderId);
             goto menu;
         case 3:
             clear();
